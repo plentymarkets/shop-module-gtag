@@ -1,28 +1,26 @@
 {
-  "name": "nuxt-gtag",
+  "name": "@plentymarkets/pwa-module-gtag",
   "type": "module",
-  "version": "3.0.2",
+  "version": "3.0.3",
   "packageManager": "pnpm@9.15.4",
   "description": "Natively integrates Google Tag into Nuxt",
   "author": "Johann Schopplich <hello@johannschopplich.com>",
   "license": "MIT",
-  "homepage": "https://github.com/johannschopplich/nuxt-gtag#readme",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/johannschopplich/nuxt-gtag.git"
-  },
-  "bugs": "https://github.com/johannschopplich/nuxt-gtag/issues",
-  "keywords": [
-    "analytics",
-    "google",
-    "gtag",
-    "gtm",
-    "nuxt"
-  ],
   "exports": {
     ".": {
-      "types": "./dist/types.d.mts"
+      "import": "./dist/module.mjs",
+      "require": "./dist/module.cjs"
+    },
+    "./runtime/*": {
+      "import": "./dist/runtime/*",
+      "require": "./dist/runtime/*"
+    },
+    "./types": {
+      "import": "./types.d.ts"
     }
+  },
+  "resolutions": {
+    "@nuxt/kit": "3.13.2"
   },
   "main": "./dist/module.mjs",
   "types": "./dist/types.d.mts",
@@ -40,7 +38,7 @@
     "release": "bumpp"
   },
   "dependencies": {
-    "@nuxt/kit": "^3.15.1",
+    "@nuxt/kit": "3.13.2",
     "defu": "^6.1.4",
     "pathe": "^2.0.1",
     "ufo": "^1.5.4"
@@ -48,12 +46,12 @@
   "devDependencies": {
     "@nuxt/eslint-config": "^0.7.5",
     "@nuxt/module-builder": "^1.0.0-alpha.1",
-    "@nuxt/schema": "^3.15.1",
+    "@nuxt/schema": "3.13.2",
     "@types/node": "^22.10.6",
     "bumpp": "^9.10.0",
     "eslint": "^9.18.0",
     "eslint-plugin-perfectionist": "^4.6.0",
-    "nuxt": "^3.15.1",
+    "nuxt": "3.13.2",
     "typescript": "^5.7.3"
   }
 }
