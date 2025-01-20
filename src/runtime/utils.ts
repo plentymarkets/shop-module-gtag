@@ -1,6 +1,7 @@
 import type { ModuleOptions } from '../module'
 import type { GoogleTagOptions } from './types'
-import { toRaw } from '#imports'
+
+export const CookieName = 'CookieBar.moduleGoogleAnalytics.googleAnalytics'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars
 export function gtag(...args: any[]) {
@@ -11,32 +12,16 @@ export function gtag(...args: any[]) {
 /**
  * Initialize the Google tag.
  */
-export function initGtag({ tags }: { tags: GoogleTagOptions[] }) {
+export function initGtag(tag: GoogleTagOptions, options: ModuleOptions) {
   window.dataLayer = window.dataLayer || []
 
-  for (const tag of tags) {
-    for (const command of tag.initCommands ?? [])
-      gtag(...command)
-  }
+  for (const command of tag.initCommands ?? [])
+    gtag(...command)
 
   gtag('js', new Date())
-  for (const tag of tags) {
-    // Always provide a default value for the `config` object
-    gtag('config', tag.id, tag.config ?? {})
+  gtag('config', tag.id, tag.config ?? {})
+
+  if (options.anonymizeIP) {
+    gtag('set', 'anonymizeIp', true)
   }
-}
-
-export function resolveTags(options: Required<ModuleOptions>) {
-  const _options = toRaw(options)
-
-  // Normalize tags
-  const tags: GoogleTagOptions[] = _options.tags.filter(Boolean)
-    .map(i => typeof i === 'string' ? { id: i } : i)
-
-  if (_options.id) {
-    const { id, config, initCommands } = _options
-    tags.unshift({ id, config, initCommands })
-  }
-
-  return tags
 }

@@ -3,11 +3,10 @@ import type { Gtag } from '../types'
 import { useHead, useRuntimeConfig } from '#imports'
 import { withQuery } from 'ufo'
 import { disableAnalytics as _disableAnalytics, enableAnalytics as _enableAnalytics } from '../analytics'
-import { gtag, initGtag, resolveTags } from '../utils'
+import { gtag, initGtag } from '../utils'
 
 export function useGtag() {
-  const options = useRuntimeConfig().public.gtag as Required<ModuleOptions>
-  const rawTags = resolveTags(options)
+  const options = useRuntimeConfig().public.pwa_module_gtag as ModuleOptions
 
   let _gtag: Gtag
   // Return a noop function if this composable is called on the server.
@@ -16,58 +15,28 @@ export function useGtag() {
   else if (import.meta.client)
     _gtag = gtag
 
-  const getTag = (id?: string) => {
-    const tags = [...rawTags]
-    let tag = tags.find(tag => tag.id === id)
-
-    if (!tag) {
-      if (id) {
-        tag = { id }
-        tags.unshift(tag)
-      }
-      else {
-        tag = tags[0]
-      }
-    }
-
-    if (!tag)
-      console.error('[nuxt-gtag] Missing Google tag ID')
-
-    return { tag, tags }
-  }
-
   /**
    * Manually initialize the Google tag library.
    *
    * @remarks
    * If no custom Google tag ID is provided, the default Google tag ID from the module options will be used.
    */
-  const initialize = (
-    /**
-     * In case you want to initialize a custom Google tag ID. Make sure to set
-     * `initMode` to `manual` in the module options beforehand.
-     */
-    id?: string,
-  ) => {
+  const initialize = () => {
     if (import.meta.client) {
-      const { tag, tags } = getTag(id)
-      if (!tag)
-        return
-
-      // Initialize `dataLayer` if the client plugin didn't initialize it
-      // (because no ID was provided in the module options).
-      if (!window.dataLayer)
-        initGtag({ tags })
-
-      // Inject the Google tag script if it wasn't injected by the client plugin.
       if (!document.head.querySelector('script[data-gtag]')) {
         useHead({
           script: [{
-            'src': withQuery(options.url, { id: tag.id }),
+            'src': withQuery('https://www.googletagmanager.com/gtag/js', { id: options.id }),
             'data-gtag': '',
           }],
         })
       }
+
+      if (!window.dataLayer && options.id)
+        initGtag({
+          id: options.id,
+          config: options.config,
+        }, options)
     }
   }
 
@@ -80,11 +49,9 @@ export function useGtag() {
    *
    * @see {@link https://developers.google.com/analytics/devguides/collection/gtagjs/user-opt-out Disable Google Analytics measurement}
    */
-  function disableAnalytics(id?: string) {
-    if (import.meta.client) {
-      const { tag } = getTag(id)
-      if (tag)
-        _disableAnalytics(tag.id)
+  function disableAnalytics() {
+    if (import.meta.client && options.id) {
+      _disableAnalytics(options.id)
     }
   }
 
@@ -97,11 +64,9 @@ export function useGtag() {
    *
    * @see {@link https://developers.google.com/analytics/devguides/collection/gtagjs/user-opt-out Disable Google Analytics measurement}
    */
-  function enableAnalytics(id?: string) {
-    if (import.meta.client) {
-      const { tag } = getTag(id)
-      if (tag)
-        _enableAnalytics(tag.id)
+  function enableAnalytics() {
+    if (import.meta.client && options.id) {
+      _enableAnalytics(options.id)
     }
   }
 
