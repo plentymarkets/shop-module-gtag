@@ -1,4 +1,4 @@
-# PlentyShop ONE Shop Google Analytics Module
+# PlentyONE Shop Google Analytics nuxt module
 
 ## Environment Variables
 
