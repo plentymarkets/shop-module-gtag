@@ -4,10 +4,12 @@ import { defu } from 'defu'
 
 export interface ModuleOptions {
   id?: string
+  enabled?: boolean;
   config?: GoogleTagOptions['config']
   anonymizeIP?: boolean
-  trackOrder?: boolean
   showGrossPrices?: boolean
+  cookieGroup?: string
+  cookieOptOut?: boolean
 }
 
 export default defineNuxtModule<ModuleOptions>({
@@ -20,10 +22,12 @@ export default defineNuxtModule<ModuleOptions>({
   },
   defaults: {
     id: '',
+    enabled: false,
     config: {},
     anonymizeIP: false,
-    trackOrder: false,
     showGrossPrices: false,
+    cookieGroup: 'CookieBar.marketing.label',
+    cookieOptOut: false
   },
   setup(options: ModuleOptions, nuxt) {
     const { resolve } = createResolver(import.meta.url)
@@ -35,11 +39,13 @@ export default defineNuxtModule<ModuleOptions>({
     )
 
     nuxt.options.runtimeConfig.public.pwa_module_gtag.id = process.env.PWA_MODULE_GA_ID as string
+    nuxt.options.runtimeConfig.public.pwa_module_gtag.enabled = process.env?.PWA_MODULE_GA_ENABLED === '1'
     nuxt.options.runtimeConfig.public.pwa_module_gtag.anonymizeIP = process.env?.PWA_MODULE_GA_ANONYMIZE_IP === '1'
-    nuxt.options.runtimeConfig.public.pwa_module_gtag.trackOrder = process.env?.PWA_MODULE_GA_TRACK_ORDER === '1'
     nuxt.options.runtimeConfig.public.pwa_module_gtag.showGrossPrices = process.env?.PWA_MODULE_GA_SHOW_GROSS_PRICES === '1'
+    nuxt.options.runtimeConfig.public.pwa_module_gtag.cookieOptOut = process.env?.PWA_MODULE_GA_OPT_OUT === '1'
+    nuxt.options.runtimeConfig.public.pwa_module_gtag.cookieGroup = (process.env.PWA_MODULE_GA_COOKIE_GROUP as string) || 'CookieBar.marketing.label'
 
-    if (nuxt.options.runtimeConfig.public.pwa_module_gtag.id === '') {
+    if (nuxt.options.runtimeConfig.public.pwa_module_gtag.id === '' || !nuxt.options.runtimeConfig.public.pwa_module_gtag.enabled) {
       return
     }
 

@@ -46,7 +46,7 @@ export default defineNuxtPlugin({
     // Order Watcher
     const { data: order } = useMakeOrder()
     watch(order, (value) => {
-      if (value && value?.order?.id && consent.value && options.trackOrder) {
+      if (value && value?.order?.id && consent.value) {
         const totalVat = value.totals.vats.reduce((acc: number, vat: { value: number }) => acc + vat.value, 0)
 
         gtag('event', 'purchase', {
