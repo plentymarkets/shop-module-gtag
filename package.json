@@ -1,22 +1,14 @@
 {
   "name": "@plentymarkets/pwa-module-gtag",
   "type": "module",
-  "version": "3.0.3",
+  "version": "1.0.0",
   "packageManager": "pnpm@9.15.4",
   "description": "Natively integrates Google Tag into Nuxt",
-  "author": "Johann Schopplich <hello@johannschopplich.com>",
   "license": "MIT",
   "exports": {
     ".": {
-      "import": "./dist/module.mjs",
-      "require": "./dist/module.cjs"
-    },
-    "./runtime/*": {
-      "import": "./dist/runtime/*",
-      "require": "./dist/runtime/*"
-    },
-    "./types": {
-      "import": "./types.d.ts"
+      "types": "./dist/types.d.mts",
+      "import": "./dist/module.mjs"
     }
   },
   "resolutions": {
@@ -52,6 +44,7 @@
     "eslint": "^9.18.0",
     "eslint-plugin-perfectionist": "^4.6.0",
     "nuxt": "3.13.2",
-    "typescript": "^5.7.3"
+    "typescript": "^5.7.3",
+    "@nuxtjs/i18n": "^8.5.6"
   }
 }

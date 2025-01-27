@@ -1,0 +1,9 @@
+{
+  "CookieBar": {
+    "moduleGoogleAnalytics": {
+      "googleAnalytics": "Google Analytics",
+      "provider": "Google LLC",
+      "status": "Add english translation here.. TODO"
+    }
+  }
+}
