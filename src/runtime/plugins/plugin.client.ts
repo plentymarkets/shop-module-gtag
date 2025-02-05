@@ -1,8 +1,7 @@
 // Expose plugin types
 import type {} from 'nuxt/app'
 import type { ModuleOptions } from '../../module'
-import { defineNuxtPlugin, useGtag, useRuntimeConfig, watch } from '#imports'
-import { useCookieConsent } from '~/composables/useCookieConsent'
+import { defineNuxtPlugin, useRuntimeConfig, watch, useCookieConsent, useRegisterCookie, useGtag } from '#imports'
 import { useMakeOrder } from '~/composables/useMakeOrder'
 import { CookieName } from '../utils'
 
@@ -63,5 +62,21 @@ export default defineNuxtPlugin({
         })
       }
     })
+
+    // Cookie Registration
+    const { add } = useRegisterCookie();
+    const optOut = options.cookieOptOut || options.cookieGroup === 'CookieBar.essentials.label'
+
+    if (options.cookieGroup) {
+      add({
+        name: CookieName,
+        Provider: 'CookieBar.moduleGoogleAnalytics.provider',
+        Status: 'CookieBar.moduleGoogleAnalytics.status',
+        PrivacyPolicy: 'https://policies.google.com/privacy',
+        Lifespan: 'Session',
+        cookieNames: ['/^_ga/', '_ga', '_gid', '_gat'],
+        accepted: optOut
+      }, options.cookieGroup)
+    }
   },
 })
