@@ -30,8 +30,8 @@ export default defineNuxtPlugin(() => {
           Status: 'CookieBar.moduleGoogleAnalytics.status',
           PrivacyPolicy: 'https://policies.google.com/privacy',
           Lifespan: 'Session',
-          cookieNames: ['/^_ga/','_ga', '_gid', '_gat'],
-          accepted: optOut
+          cookieNames: ['/^_ga/', '_ga', '_gid', '_gat'],
+          accepted: optOut,
         })
         return
       }
