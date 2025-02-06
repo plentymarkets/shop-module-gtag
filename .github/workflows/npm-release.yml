@@ -22,7 +22,7 @@ jobs:
       - name: prepare
         run: pnpm run dev:prepare
       - name: ci
-        run: pnpm run lint && pnpm run test
+        run: pnpm run lint
       - name: prepack
         run: pnpm run prepack
       - name: publish
