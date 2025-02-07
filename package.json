@@ -30,6 +30,7 @@
     "release": "bumpp"
   },
   "dependencies": {
+    "@plentymarkets/shop-core": "^1.0.0",
     "@nuxt/kit": "3.13.2",
     "defu": "^6.1.4",
     "pathe": "^2.0.1",
