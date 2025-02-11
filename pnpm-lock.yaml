@@ -15,8 +15,8 @@ importers:
         specifier: 3.13.2
         version: 3.13.2(magicast@0.3.5)(rollup@4.30.1)
       '@plentymarkets/shop-core':
-        specifier: ^1.0.0
-        version: 1.0.0
+        specifier: ^1.1.1
+        version: 1.1.1
       defu:
         specifier: ^6.1.4
         version: 6.1.4
@@ -1013,8 +1013,8 @@ packages:
     resolution: {integrity: sha512-dT/lxkph6HIqsdgHOwqJ4yWbxtrSGU+BnK9USligN5EMmPKAx/DdaOJvv/v0cVeXjUilK8vZ006H8oQd83z+rg==}
     engines: {node: '>=16.x'}
 
-  '@plentymarkets/shop-core@1.0.0':
-    resolution: {integrity: sha512-pCAcO2ehz+Rn9tTVw+iLIvV06MCjhC8ZctzIe6sHfrypQIrub+fQaj16kH0w/q6DU1OJB+no36vWRt4mkw+f9A==}
+  '@plentymarkets/shop-core@1.1.1':
+    resolution: {integrity: sha512-itmoVJPmPfSbWDsjE90Vw9zsfSqRHfnDde9hsCHtzmVpwamrPiU57c/KbbDEMemPeEq8ZHHUMATXb7m+5Aehfg==}
 
   '@polka/url@1.0.0-next.28':
     resolution: {integrity: sha512-8LduaNlMZGwdZ6qWrKlfa+2M4gahzFkprZiAt2TF8uS0qQgBizKXpXURqvTJ4WtmupWxaLqjRb2UCTe72mu+Aw==}
@@ -5457,7 +5457,7 @@ snapshots:
       - debug
       - supports-color
 
-  '@plentymarkets/shop-core@1.0.0':
+  '@plentymarkets/shop-core@1.1.1':
     dependencies:
       '@plentymarkets/shop-api': 0.88.0
       mitt: 3.0.1
