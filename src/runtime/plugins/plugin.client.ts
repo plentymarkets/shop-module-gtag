@@ -3,15 +3,15 @@ import type {} from 'nuxt/app'
 import type { ModuleOptions } from '../../module'
 import {
   defineNuxtPlugin,
+  useCookieConsent,
+  usePlentyEvent,
+  useRegisterCookie,
   useRuntimeConfig,
   watch,
-  useCookieConsent,
-  useRegisterCookie,
-  usePlentyEvent
 } from '#imports'
+import { cartGetters, orderGetters } from '@plentymarkets/shop-api'
 import { useGtag } from '../composables/useGtag'
 import { CookieName } from '../utils'
-import { cartGetters, orderGetters } from '@plentymarkets/shop-api'
 
 export default defineNuxtPlugin({
   parallel: true,
@@ -51,7 +51,7 @@ export default defineNuxtPlugin({
     })
 
     // Events
-    const { on } = usePlentyEvent();
+    const { on } = usePlentyEvent()
     on('frontend:orderCreated', (order) => {
       if (consent.value && order.order && order.totals) {
         const totalVat = order.totals.vats.reduce((acc: number, vat: { value: number }) => acc + vat.value, 0)
@@ -61,14 +61,14 @@ export default defineNuxtPlugin({
           currency: order.totals.currency,
           tax: totalVat,
           shipping: options.showGrossPrices ? order.totals.shippingGross : order.totals.shippingNet,
-          items: order.order.orderItems.map((item) => ({
+          items: order.order.orderItems.map(item => ({
             item_id: orderGetters.getItemVariationId(item),
             item_name: orderGetters.getItemName(item),
             quantity: orderGetters.getItemQty(item),
           })),
         })
       }
-    });
+    })
 
     on('frontend:addToCart', (data) => {
       if (consent.value) {
@@ -87,7 +87,7 @@ export default defineNuxtPlugin({
         gtag('event', 'remove_from_cart', {
           items: [{
             item_id: data.deleteItemParams.cartItemId,
-          }]
+          }],
         })
       }
     })
@@ -97,7 +97,7 @@ export default defineNuxtPlugin({
         gtag('event', 'begin_checkout', {
           currency: cartGetters.getCurrency(data),
           value: options.showGrossPrices ? data.basketAmount : data.basketAmountNet,
-          items: data?.items?.map((item) => ({
+          items: data?.items?.map(item => ({
             item_id: cartGetters.getVariationId(item),
             item_name: cartGetters.getItemName(item),
             quantity: cartGetters.getItemQty(item),
@@ -122,7 +122,7 @@ export default defineNuxtPlugin({
           method: data.method,
         })
       }
-    });
+    })
 
     on('frontend:login', (data) => {
       if (consent.value) {
@@ -130,7 +130,7 @@ export default defineNuxtPlugin({
           method: data.method,
         })
       }
-    });
+    })
 
     on('frontend:searchProduct', (data) => {
       if (consent.value) {
@@ -138,10 +138,10 @@ export default defineNuxtPlugin({
           search_term: data,
         })
       }
-    });
+    })
 
     // Cookie Registration
-    const { add } = useRegisterCookie();
+    const { add } = useRegisterCookie()
     const optOut = options.cookieOptOut || options.cookieGroup === 'CookieBar.essentials.label'
 
     if (options.cookieGroup) {
@@ -152,7 +152,7 @@ export default defineNuxtPlugin({
         PrivacyPolicy: 'https://policies.google.com/privacy',
         Lifespan: 'Session',
         cookieNames: ['/^_ga/', '_ga', '_gid', '_gat'],
-        accepted: optOut
+        accepted: optOut,
       }, options.cookieGroup)
     }
   },

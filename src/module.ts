@@ -4,7 +4,7 @@ import { defu } from 'defu'
 
 export interface ModuleOptions {
   id?: string
-  enabled?: boolean;
+  enabled?: boolean
   config?: GoogleTagOptions['config']
   anonymizeIP?: boolean
   showGrossPrices?: boolean
@@ -27,12 +27,12 @@ export default defineNuxtModule<ModuleOptions>({
     anonymizeIP: false,
     showGrossPrices: false,
     cookieGroup: 'CookieBar.marketing.label',
-    cookieOptOut: false
+    cookieOptOut: false,
   },
   async setup(options: ModuleOptions, nuxt) {
     const { resolve } = createResolver(import.meta.url)
 
-    await installModule('@plentymarkets/shop-core');
+    await installModule('@plentymarkets/shop-core')
 
     // Add module options to public runtime config
     nuxt.options.runtimeConfig.public.pwa_module_gtag = defu(
