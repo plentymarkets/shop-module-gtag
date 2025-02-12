@@ -70,13 +70,10 @@ export default defineNuxtModule<ModuleOptions>({
     // Transpile runtime
     nuxt.options.build.transpile.push(resolve('runtime'))
 
-    addImports(['useGtag', 'useTrackEvent'].map(name => ({
-      from: resolve(`runtime/composables/${name}`),
-      name,
-    })))
-
-    addPlugin({
-      src: resolve('runtime/plugins/registerCookie'),
+    addImports({
+      name: 'useGtag',
+      from: resolve(`runtime/composables/useGtag`),
+      as: 'useGtag',
     })
 
     addPlugin({
