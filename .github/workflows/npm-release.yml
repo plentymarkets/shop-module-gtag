@@ -26,6 +26,6 @@ jobs:
       - name: prepack
         run: pnpm run prepack
       - name: publish
-        run: npm publish --dry-run
+        run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
