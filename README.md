@@ -13,4 +13,4 @@
 
 ## License
 
-[MIT](./LICENSE) License © 2023-PRESENT [Johann Schopplich](https://github.com/johannschopplich)
+[MIT](./LICENSE)

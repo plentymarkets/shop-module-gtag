@@ -3,13 +3,18 @@
   "type": "module",
   "version": "1.0.0",
   "packageManager": "pnpm@9.15.4",
-  "description": "Natively integrates Google Tag into Nuxt",
+  "description": "Google Tag nuxt module integration for PlentyONE Shop",
   "license": "MIT",
   "exports": {
     ".": {
       "types": "./dist/types.d.mts",
       "import": "./dist/module.mjs"
     }
+  },
+  "private": false,
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
   },
   "resolutions": {
     "@nuxt/kit": "3.13.2"
