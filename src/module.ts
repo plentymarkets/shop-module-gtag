@@ -1,10 +1,10 @@
 import type { GoogleTagOptions } from './runtime/types'
-import { addImports, addPlugin, createResolver, defineNuxtModule } from '@nuxt/kit'
+import { addImports, addPlugin, createResolver, defineNuxtModule, installModule } from '@nuxt/kit'
 import { defu } from 'defu'
 
 export interface ModuleOptions {
   id?: string
-  enabled?: boolean;
+  enabled?: boolean
   config?: GoogleTagOptions['config']
   anonymizeIP?: boolean
   showGrossPrices?: boolean
@@ -27,10 +27,12 @@ export default defineNuxtModule<ModuleOptions>({
     anonymizeIP: false,
     showGrossPrices: false,
     cookieGroup: 'CookieBar.marketing.label',
-    cookieOptOut: false
+    cookieOptOut: false,
   },
-  setup(options: ModuleOptions, nuxt) {
+  async setup(options: ModuleOptions, nuxt) {
     const { resolve } = createResolver(import.meta.url)
+
+    await installModule('@plentymarkets/shop-core')
 
     // Add module options to public runtime config
     nuxt.options.runtimeConfig.public.pwa_module_gtag = defu(
@@ -68,13 +70,10 @@ export default defineNuxtModule<ModuleOptions>({
     // Transpile runtime
     nuxt.options.build.transpile.push(resolve('runtime'))
 
-    addImports(['useGtag', 'useTrackEvent'].map(name => ({
-      from: resolve(`runtime/composables/${name}`),
-      name,
-    })))
-
-    addPlugin({
-      src: resolve('runtime/plugins/registerCookie'),
+    addImports({
+      name: 'useGtag',
+      from: resolve(`runtime/composables/useGtag`),
+      as: 'useGtag',
     })
 
     addPlugin({
