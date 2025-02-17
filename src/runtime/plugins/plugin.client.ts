@@ -65,6 +65,7 @@ export default defineNuxtPlugin({
             item_id: orderGetters.getItemVariationId(item),
             item_name: orderGetters.getItemName(item),
             quantity: orderGetters.getItemQty(item),
+            affiliation: item.referrerId.toString(),
           })),
         })
       }
