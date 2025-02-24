@@ -6,7 +6,6 @@ export interface ModuleOptions {
   id?: string
   enabled?: boolean
   config?: GoogleTagOptions['config']
-  anonymizeIP?: boolean
   showGrossPrices?: boolean
   cookieGroup?: string
   cookieOptOut?: boolean
@@ -24,7 +23,6 @@ export default defineNuxtModule<ModuleOptions>({
     id: '',
     enabled: false,
     config: {},
-    anonymizeIP: false,
     showGrossPrices: false,
     cookieGroup: 'CookieBar.marketing.label',
     cookieOptOut: false,
@@ -42,7 +40,6 @@ export default defineNuxtModule<ModuleOptions>({
 
     nuxt.options.runtimeConfig.public.pwa_module_gtag.id = process.env.PWA_MODULE_GA_ID as string
     nuxt.options.runtimeConfig.public.pwa_module_gtag.enabled = process.env?.PWA_MODULE_GA_ENABLED === '1'
-    nuxt.options.runtimeConfig.public.pwa_module_gtag.anonymizeIP = process.env?.PWA_MODULE_GA_ANONYMIZE_IP === '1'
     nuxt.options.runtimeConfig.public.pwa_module_gtag.showGrossPrices = process.env?.PWA_MODULE_GA_SHOW_GROSS_PRICES === '1'
     nuxt.options.runtimeConfig.public.pwa_module_gtag.cookieOptOut = process.env?.PWA_MODULE_GA_OPT_OUT === '1'
     nuxt.options.runtimeConfig.public.pwa_module_gtag.cookieGroup = (process.env.PWA_MODULE_GA_COOKIE_GROUP as string) || 'CookieBar.marketing.label'

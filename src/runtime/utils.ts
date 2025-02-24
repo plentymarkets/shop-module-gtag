@@ -20,8 +20,4 @@ export function initGtag(tag: GoogleTagOptions, options: ModuleOptions) {
 
   gtag('js', new Date())
   gtag('config', tag.id, tag.config ?? {})
-
-  if (options.anonymizeIP) {
-    gtag('set', 'anonymizeIp', true)
-  }
 }
