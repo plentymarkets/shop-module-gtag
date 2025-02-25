@@ -1,4 +1,3 @@
-import type { ModuleOptions } from '../module'
 import type { GoogleTagOptions } from './types'
 
 export const CookieName = 'CookieBar.moduleGoogleAnalytics.googleAnalytics'
@@ -12,7 +11,7 @@ export function gtag(...args: any[]) {
 /**
  * Initialize the Google tag.
  */
-export function initGtag(tag: GoogleTagOptions, options: ModuleOptions) {
+export function initGtag(tag: GoogleTagOptions) {
   window.dataLayer = window.dataLayer || []
 
   for (const command of tag.initCommands ?? [])
@@ -20,8 +19,4 @@ export function initGtag(tag: GoogleTagOptions, options: ModuleOptions) {
 
   gtag('js', new Date())
   gtag('config', tag.id, tag.config ?? {})
-
-  if (options.anonymizeIP) {
-    gtag('set', 'anonymizeIp', true)
-  }
 }

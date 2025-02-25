@@ -36,7 +36,7 @@ export function useGtag() {
         initGtag({
           id: options.id,
           config: options.config,
-        }, options)
+        })
     }
   }
 
