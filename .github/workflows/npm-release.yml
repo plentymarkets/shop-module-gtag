@@ -5,6 +5,10 @@ on:
   release:
     types: [created]
 
+permissions:
+  contents: read
+  id-token: write  # Required for OIDC
+
 jobs:
   publish-npm:
     runs-on: ubuntu-latest
@@ -27,5 +31,3 @@ jobs:
         run: pnpm run prepack
       - name: publish
         run: npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
