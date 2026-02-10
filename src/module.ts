@@ -32,17 +32,19 @@ export default defineNuxtModule<ModuleOptions>({
 
     await installModule('@plentymarkets/shop-core')
 
+    const toBool = (val?: string) => val === '1' || val === 'true'
+
     // Add module options to public runtime config
     nuxt.options.runtimeConfig.public.pwa_module_gtag = defu(
       nuxt.options.runtimeConfig.public.pwa_module_gtag,
       options,
     )
 
-    nuxt.options.runtimeConfig.public.pwa_module_gtag.id = process.env.PWA_MODULE_GA_ID as string
-    nuxt.options.runtimeConfig.public.pwa_module_gtag.enabled = process.env?.PWA_MODULE_GA_ENABLED === '1'
-    nuxt.options.runtimeConfig.public.pwa_module_gtag.showGrossPrices = process.env?.PWA_MODULE_GA_SHOW_GROSS_PRICES === '1'
-    nuxt.options.runtimeConfig.public.pwa_module_gtag.cookieOptOut = process.env?.PWA_MODULE_GA_OPT_OUT === '1'
-    nuxt.options.runtimeConfig.public.pwa_module_gtag.cookieGroup = (process.env.PWA_MODULE_GA_COOKIE_GROUP as string) || 'CookieBar.marketing.label'
+    nuxt.options.runtimeConfig.public.pwa_module_gtag.id = process.env.PWA_MODULE_GA_ID as string || process.env.NUXT_PUBLIC_GOOGLE_ANALITICS_TRACKING_ID || ''
+    nuxt.options.runtimeConfig.public.pwa_module_gtag.enabled = toBool(process.env.PWA_MODULE_GA_ENABLED) || toBool(process.env.NUXT_PUBLIC_ENABLE_GOOGLE_ANALITICS)
+    nuxt.options.runtimeConfig.public.pwa_module_gtag.showGrossPrices = toBool(process.env.PWA_MODULE_GA_SHOW_GROSS_PRICES) || toBool(process.env.NUXT_PUBLIC_SEND_GROSS_PRICES_TO_GOOGLE_ANALITICS)
+    nuxt.options.runtimeConfig.public.pwa_module_gtag.cookieOptOut = toBool(process.env.PWA_MODULE_GA_OPT_OUT) || toBool(process.env.NUXT_PUBLIC_REGISTER_COOKIE_AS_OPT_OUT)
+    nuxt.options.runtimeConfig.public.pwa_module_gtag.cookieGroup = (process.env.PWA_MODULE_GA_COOKIE_GROUP as string) || process.env.NUXT_PUBLIC_GOOGLE_ANALITICS_COOKIE_GROUP || 'CookieBar.marketing.label'
 
     if (nuxt.options.runtimeConfig.public.pwa_module_gtag.id === '' || !nuxt.options.runtimeConfig.public.pwa_module_gtag.enabled) {
       return
