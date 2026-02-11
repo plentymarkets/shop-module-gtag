@@ -1,7 +1,13 @@
 # Change log: `@plentymarkets/pwa-module-gtag`
 
+### 1.2.0
+### Minor Changes
+
+- Migrate from pnpm to npm
+
 ### 1.1.4
 ### Patch Changes
+
 - Updated dependencies
 - Fix shop-core installation
 
