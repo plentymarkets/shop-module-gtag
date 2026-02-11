@@ -2,7 +2,6 @@
   "name": "@plentymarkets/shop-module-gtag",
   "type": "module",
   "version": "1.1.4",
-  "packageManager": "pnpm@9.15.4",
   "description": "Google Tag nuxt module integration for PlentyONE Shop",
   "license": "BSD-3-Clause",
   "exports": {
