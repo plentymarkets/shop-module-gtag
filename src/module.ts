@@ -42,9 +42,9 @@ export default defineNuxtModule<ModuleOptions>({
       options,
     )
 
-    nuxt.options.runtimeConfig.public.pwa_module_gtag =  { 
-    ...nuxt.options.runtimeConfig.public.pwa_module_gtag,
-    ...envConfig
+    nuxt.options.runtimeConfig.public.pwa_module_gtag = {
+      ...nuxt.options.runtimeConfig.public.pwa_module_gtag,
+      ...envConfig,
     }
 
     if (nuxt.options.runtimeConfig.public.pwa_module_gtag.id === '' || !nuxt.options.runtimeConfig.public.pwa_module_gtag.enabled) {
