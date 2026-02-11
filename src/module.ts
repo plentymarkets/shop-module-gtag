@@ -42,11 +42,10 @@ export default defineNuxtModule<ModuleOptions>({
       options,
     )
 
-    nuxt.options.runtimeConfig.public.pwa_module_gtag.id = envConfig.id
-    nuxt.options.runtimeConfig.public.pwa_module_gtag.enabled = envConfig.enabled
-    nuxt.options.runtimeConfig.public.pwa_module_gtag.showGrossPrices = envConfig.showGrossPrices
-    nuxt.options.runtimeConfig.public.pwa_module_gtag.cookieOptOut = envConfig.cookieOptOut
-    nuxt.options.runtimeConfig.public.pwa_module_gtag.cookieGroup = envConfig.cookieGroup
+    nuxt.options.runtimeConfig.public.pwa_module_gtag =  { 
+    ...nuxt.options.runtimeConfig.public.pwa_module_gtag,
+    ...envConfig
+    }
 
     if (nuxt.options.runtimeConfig.public.pwa_module_gtag.id === '' || !nuxt.options.runtimeConfig.public.pwa_module_gtag.enabled) {
       return
