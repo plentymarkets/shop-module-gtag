@@ -1,4 +1,10 @@
 # Change log: `@plentymarkets/pwa-module-gtag`
+
+### 1.1.4
+### Patch Changes
+- Updated dependencies
+- Fix shop-core installation
+
 # 1.1.3
 ### Patch Changes
 

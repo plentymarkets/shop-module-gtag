@@ -1,5 +1,5 @@
 import type { GoogleTagOptions } from './runtime/types'
-import { addImports, addPlugin, createResolver, defineNuxtModule, installModule } from '@nuxt/kit'
+import { addImports, addPlugin, createResolver, defineNuxtModule } from '@nuxt/kit'
 import { defu } from 'defu'
 import { resolveEnvConfig } from './runtime/utils'
 
@@ -28,10 +28,16 @@ export default defineNuxtModule<ModuleOptions>({
     cookieGroup: 'CookieBar.marketing.label',
     cookieOptOut: false,
   },
+  moduleDependencies: {
+    '@nuxtjs/i18n': {
+      version: '>=9.5.4',
+    },
+    '@plentymarkets/shop-core': {
+      version: '>=1.13.4',
+    },
+  },
   async setup(options: ModuleOptions, nuxt) {
     const { resolve } = createResolver(import.meta.url)
-
-    await installModule('@plentymarkets/shop-core')
 
     // Resolve env config with legacy fallback
     const envConfig = resolveEnvConfig()
