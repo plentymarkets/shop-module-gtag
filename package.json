@@ -21,7 +21,7 @@
     "dist"
   ],
   "scripts": {
-    "go": "pnpm run dev:prepare && pnpm run prepack",
+    "go": "npm run dev:prepare && npm run prepack",
     "prepack": "nuxt-module-build build",
     "dev": "nuxi dev playground",
     "dev:build": "nuxi build playground",
