@@ -1,6 +1,7 @@
 import type { GoogleTagOptions } from './runtime/types'
 import { addImports, addPlugin, createResolver, defineNuxtModule, installModule } from '@nuxt/kit'
 import { defu } from 'defu'
+import { resolveEnvConfig } from './runtime/utils'
 
 export interface ModuleOptions {
   id?: string
@@ -32,17 +33,19 @@ export default defineNuxtModule<ModuleOptions>({
 
     await installModule('@plentymarkets/shop-core')
 
+    // Resolve env config with legacy fallback
+    const envConfig = resolveEnvConfig()
+
     // Add module options to public runtime config
     nuxt.options.runtimeConfig.public.pwa_module_gtag = defu(
       nuxt.options.runtimeConfig.public.pwa_module_gtag,
       options,
     )
 
-    nuxt.options.runtimeConfig.public.pwa_module_gtag.id = process.env.PWA_MODULE_GA_ID as string
-    nuxt.options.runtimeConfig.public.pwa_module_gtag.enabled = process.env?.PWA_MODULE_GA_ENABLED === '1'
-    nuxt.options.runtimeConfig.public.pwa_module_gtag.showGrossPrices = process.env?.PWA_MODULE_GA_SHOW_GROSS_PRICES === '1'
-    nuxt.options.runtimeConfig.public.pwa_module_gtag.cookieOptOut = process.env?.PWA_MODULE_GA_OPT_OUT === '1'
-    nuxt.options.runtimeConfig.public.pwa_module_gtag.cookieGroup = (process.env.PWA_MODULE_GA_COOKIE_GROUP as string) || 'CookieBar.marketing.label'
+    nuxt.options.runtimeConfig.public.pwa_module_gtag = {
+      ...nuxt.options.runtimeConfig.public.pwa_module_gtag,
+      ...envConfig,
+    }
 
     if (nuxt.options.runtimeConfig.public.pwa_module_gtag.id === '' || !nuxt.options.runtimeConfig.public.pwa_module_gtag.enabled) {
       return
