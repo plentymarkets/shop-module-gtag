@@ -1,5 +1,6 @@
 version: 2
 updates:
+  # All NPM updates (daily)
   - package-ecosystem: "npm"
     directory: "/"
     schedule:
