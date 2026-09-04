@@ -1,5 +1,27 @@
 # Change log: `@plentymarkets/pwa-module-gtag`
 
+### 1.4.0
+
+### Minor Changes
+
+- Added support for advanced consent mode
+  Add this to your `nuxt.config.ts`:
+  ``` ts
+  pwa_module_gtag: {
+    config: {
+      initCommands: [
+        ['consent', 'default', {
+          ad_user_data: 'denied',
+          ad_personalization: 'denied',
+          ad_storage: 'denied',
+          analytics_storage: 'denied',
+          wait_for_update: 500,
+        }]
+      ]
+    }
+  },
+  ```
+
 ### 1.3.0
 ### Minor Changes
 
