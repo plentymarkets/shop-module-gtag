@@ -10,7 +10,7 @@ import {
 } from '#imports'
 import { cartGetters, orderGetters } from '@plentymarkets/shop-api'
 import { useGtag } from '../composables/useGtag'
-import { CookieName } from '../utils'
+import { CookieName, hasInitCommands } from '../utils'
 
 export default defineNuxtPlugin({
   parallel: true,
@@ -21,15 +21,22 @@ export default defineNuxtPlugin({
     const { consent } = useCookieConsent(CookieName)
     const { initialize, enableAnalytics, disableAnalytics, gtag } = useGtag()
 
+    // Advanced Consent Mode: if `config.initCommands` is set (e.g. a `consent
+    // default` call), gtag.js must load right away, before consent is decided,
+    // so those commands actually run and Google can send cookieless pings.
+    const advancedConsentMode = hasInitCommands(options.config)
+
+    if (advancedConsentMode) initialize()
+
     if (consent.value) {
       enableAnalytics()
-      initialize()
+      if (!advancedConsentMode) initialize()
     }
 
     // Consent Watcher
     watch(consent, (value) => {
       if (value) {
-        initialize()
+        if (!advancedConsentMode) initialize()
         gtag('consent', 'update', {
           ad_user_data: 'granted',
           ad_personalization: 'granted',
@@ -45,7 +52,9 @@ export default defineNuxtPlugin({
           ad_storage: 'denied',
           analytics_storage: 'denied',
         })
-        disableAnalytics()
+        // The ga-disable kill-switch would also block the cookieless pings
+        // Advanced Consent Mode relies on, so it's only used outside that mode.
+        if (!advancedConsentMode) disableAnalytics()
       }
     })
 

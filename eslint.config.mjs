@@ -39,3 +39,10 @@ export default createConfigForNuxt({
       'perfectionist/sort-named-imports': ['error', { order: 'asc', type: 'natural' }],
     },
   })
+  .append({
+    files: ['**/*.test.ts'],
+    rules: {
+      '@typescript-eslint/no-explicit-any': 'off',
+      '@typescript-eslint/no-dynamic-delete': 'off',
+    },
+  })

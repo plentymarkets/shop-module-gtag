@@ -14,11 +14,21 @@ export function gtag(...args: any[]) {
 export function initGtag(tag: GoogleTagOptions) {
   window.dataLayer = window.dataLayer || []
 
-  for (const command of tag.initCommands ?? [])
+  const { initCommands, ...config } = tag.config ?? {}
+
+  for (const command of initCommands ?? [])
     gtag(...command)
 
   gtag('js', new Date())
-  gtag('config', tag.id, tag.config ?? {})
+  gtag('config', tag.id, config)
+}
+
+/**
+ * Whether `config.initCommands` contains any commands, meaning gtag.js needs to
+ * load and run them before consent is decided (e.g. a `consent default` call).
+ */
+export function hasInitCommands(config?: GoogleTagOptions['config']): boolean {
+  return Boolean(config?.initCommands?.length)
 }
 
 /**

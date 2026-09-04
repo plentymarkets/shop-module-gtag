@@ -12,34 +12,42 @@ export interface GoogleTagOptions {
    */
   id: string
   /**
-   * Additional commands to be executed before the Google tag ID is initialized.
+   * Additional configuration for the Google tag ID, to be set during initialization of the tag ID with the `config' command.
    *
    * @remarks
-   * Useful to set the default consent state.
+   * `initCommands` is pulled out of this object before the remainder is sent as the `config` command's params,
+   * so it never reaches Google as a literal config value.
    *
    * @example
    * ```ts
-   * commands: [
-   *   ['consent', 'default', {
-   *     ad_storage: 'denied',
-   *     ad_user_data: 'denied',
-   *     ad_personalization: 'denied',
-   *     analytics_storage: 'denied'
-   *   }]
-   * ]
+   * config: {
+   *   initCommands: [
+   *     ['consent', 'default', {
+   *       ad_storage: 'denied',
+   *       ad_user_data: 'denied',
+   *       ad_personalization: 'denied',
+   *       analytics_storage: 'denied',
+   *       wait_for_update: 500,
+   *     }]
+   *   ]
+   * }
    * ```
    *
    * @default undefined
    */
-  initCommands?: {
-    [K in keyof GtagCommands]: [K, ...GtagCommands[K]]
-  }[keyof GtagCommands][]
-  /**
-   * Additional configuration for the Google tag ID, to be set during initialization of the tag ID with the `config' command.
-   *
-   * @default undefined
-   */
-  config?: GtagCommands['config'][1]
+  config?: GtagCommands['config'][1] & {
+    /**
+     * Additional commands to be executed before the Google tag ID is initialized.
+     *
+     * @remarks
+     * Useful to set the default consent state.
+     *
+     * @default undefined
+     */
+    initCommands?: {
+      [K in keyof GtagCommands]: [K, ...GtagCommands[K]]
+    }[keyof GtagCommands][]
+  }
 }
 
 export interface GtagCommands {
